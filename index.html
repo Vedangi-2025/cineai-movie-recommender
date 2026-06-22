@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CineAI – AI Movie Recommendation System</title>
+  <link rel="stylesheet" href="src/styles/main.css" />
+  <link rel="icon" type="image/svg+xml" href="public/favicon.svg" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <div class="logo-row">
+        <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="2" width="20" height="20" rx="3"/>
+          <path d="M7 2v20M17 2v20M2 12h20M2 7h5M17 7h5M2 17h5M17 17h5"/>
+        </svg>
+        <span class="logo-text">CineAI</span>
+      </div>
+      <p class="tagline">AI-powered movie recommendations, personalised for you</p>
+    </div>
+  </header>
+
+  <main class="container" id="app">
+    <!-- Preferences Panel -->
+    <section class="pref-panel" aria-label="Movie preferences">
+
+      <div class="pref-card" id="genre-section">
+        <p class="section-label">Genres you like</p>
+        <div class="genre-grid" id="genres">
+          <button class="genre-btn" data-val="Action">Action</button>
+          <button class="genre-btn" data-val="Comedy">Comedy</button>
+          <button class="genre-btn" data-val="Drama">Drama</button>
+          <button class="genre-btn" data-val="Thriller">Thriller</button>
+          <button class="genre-btn" data-val="Sci-Fi">Sci-Fi</button>
+          <button class="genre-btn" data-val="Horror">Horror</button>
+          <button class="genre-btn" data-val="Romance">Romance</button>
+          <button class="genre-btn" data-val="Animation">Animation</button>
+          <button class="genre-btn" data-val="Documentary">Documentary</button>
+          <button class="genre-btn" data-val="Fantasy">Fantasy</button>
+          <button class="genre-btn" data-val="Mystery">Mystery</button>
+          <button class="genre-btn" data-val="Bollywood">Bollywood</button>
+        </div>
+      </div>
+
+      <div class="pref-card" id="mood-section">
+        <p class="section-label">Current mood</p>
+        <div class="mood-grid" id="moods">
+          <div class="mood-card" data-val="want something uplifting and fun" tabindex="0" role="button" aria-pressed="false">
+            <svg class="mood-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+            <span>Feel good</span>
+          </div>
+          <div class="mood-card" data-val="want something intense and gripping" tabindex="0" role="button" aria-pressed="false">
+            <svg class="mood-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            <span>Intense</span>
+          </div>
+          <div class="mood-card" data-val="want something emotional and moving" tabindex="0" role="button" aria-pressed="false">
+            <svg class="mood-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            <span>Emotional</span>
+          </div>
+          <div class="mood-card" data-val="want to laugh a lot" tabindex="0" role="button" aria-pressed="false">
+            <svg class="mood-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 13s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></svg>
+            <span>Laugh</span>
+          </div>
+          <div class="mood-card" data-val="want something thought-provoking and deep" tabindex="0" role="button" aria-pressed="false">
+            <svg class="mood-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01"/><circle cx="12" cy="12" r="10"/></svg>
+            <span>Thoughtful</span>
+          </div>
+          <div class="mood-card" data-val="want something scary and creepy" tabindex="0" role="button" aria-pressed="false">
+            <svg class="mood-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 10h.01M15 10h.01M12 2a8 8 0 0 1 8 8c0 5-8 12-8 12S4 15 4 10a8 8 0 0 1 8-8z"/></svg>
+            <span>Scared</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pref-card" id="fav-section">
+        <p class="section-label">Movies you've loved <span class="optional">(optional)</span></p>
+        <div class="fav-input-row">
+          <input type="text" id="favInput" placeholder="e.g. Inception, 3 Idiots, Interstellar..." aria-label="Enter a movie you loved" />
+          <button id="addFavBtn" class="add-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+            Add
+          </button>
+        </div>
+        <div class="fav-tags" id="favTags" aria-live="polite"></div>
+      </div>
+
+      <div class="pref-card" id="pref-section">
+        <p class="section-label">Preferences</p>
+        <div class="pref-row">
+          <label for="ratingSlider" class="pref-label">Min rating</label>
+          <input type="range" min="5" max="9.5" step="0.5" value="7" id="ratingSlider" aria-label="Minimum IMDb rating" />
+          <span class="pref-val" id="ratingVal" aria-live="polite">7.0+</span>
+        </div>
+        <div class="pref-row">
+          <label for="era" class="pref-label">Era</label>
+          <select id="era" aria-label="Movie era preference">
+            <option value="any era">Any era</option>
+            <option value="released after 2015">Recent (2015+)</option>
+            <option value="released between 2000 and 2015">2000s–2010s</option>
+            <option value="released between 1980 and 1999">80s–90s classics</option>
+            <option value="released before 1980">Old classics</option>
+          </select>
+        </div>
+        <div class="pref-row">
+          <label for="language" class="pref-label">Language</label>
+          <select id="language" aria-label="Movie language preference">
+            <option value="any language">Any language</option>
+            <option value="English">English</option>
+            <option value="Hindi / Bollywood">Hindi</option>
+            <option value="Korean">Korean</option>
+            <option value="Japanese">Japanese</option>
+            <option value="Spanish">Spanish</option>
+            <option value="French">French</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="get-btn" id="getBtn" aria-label="Get AI movie recommendations">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="20" height="20" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        Get my recommendations
+      </button>
+    </section>
+
+    <!-- Results Panel -->
+    <section class="results-panel" id="results" aria-live="polite" aria-label="Recommendation results">
+      <div class="empty-state">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" width="48" height="48" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M7 2v20M17 2v20M2 12h20"/></svg>
+        <p>Your recommendations will appear here</p>
+        <span>Pick your genres and mood, then click the button</span>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Built with the <a href="https://www.anthropic.com" target="_blank" rel="noopener">Anthropic Claude API</a> · Content-based + collaborative filtering via LLM</p>
+      <p class="footer-sub">AI Internship Project · Movie Recommendation System</p>
+    </div>
+  </footer>
+
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>
